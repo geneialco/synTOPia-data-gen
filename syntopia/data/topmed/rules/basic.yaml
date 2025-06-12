@@ -1,0 +1,30 @@
+# Example rules for synthetic data cleaning
+# Basic rules
+- if: sex == "M"
+  then:
+    pregnant: 0
+    pregnant_livebirth: 0
+    pregnant_clot: 0
+    pregnant_other: 0
+    pregnant_unknown: 0
+    prostate_cancer: 0  # Initialize to 0 for males
+
+- if: sex == "F"
+  then:
+    prostate_cancer: 0  # Females cannot have prostate cancer
+
+- if: enrollage < 0
+  then: enrollage = 0
+
+- if: (sex == "F") and (enrollage < 10)
+  then:
+    pregnant: 0
+    pregnant_livebirth: 0
+    pregnant_clot: 0
+    pregnant_other: 0
+    pregnant_unknown: 0
+
+# Age-specific rules
+- if: enrollage < 40
+  then:
+    prostate_cancer: 0  # Very rare under 40 

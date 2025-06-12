@@ -3,9 +3,10 @@
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, Any
 import logging
-from ..parsing.schema import Schema, Variable
+from ..parsing.schema import Schema, Variable, Statistics, ValueLabel
+from syntopia.rules import apply_rules
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,9 @@ def generate_synthetic_data(
     schema: Schema,
     n_samples: int = 1000,
     output_dir: Optional[Union[str, Path]] = None,
-    seed: Optional[int] = None
+    seed: Optional[int] = None,
+    epsilon: float = 1.0,
+    rules_yaml: Optional[Union[str, Path]] = None
 ) -> pd.DataFrame:
     """Generate synthetic data based on schema statistics.
     
@@ -31,6 +34,8 @@ def generate_synthetic_data(
         n_samples: Number of samples to generate
         output_dir: Directory to save output files (optional)
         seed: Random seed for reproducibility (optional)
+        epsilon: Privacy budget for differential privacy
+        rules_yaml: Optional path to YAML file containing rules to apply
         
     Returns:
         DataFrame containing synthetic data
@@ -75,6 +80,11 @@ def generate_synthetic_data(
                 synthetic_data[var.name] = np.random.choice(US_STATE_CODES, n_samples)
             continue
             
+        # Calculate missing rate
+        missing_rate = 0.0
+        if var.statistics.nulls is not None and global_max_count > 0:
+            missing_rate = var.statistics.nulls / global_max_count
+            
         # Generate synthetic values based on variable type
         if var.type in ['numeric', 'float', 'integer'] and var.type != 'enum_integer':
             synthetic_data[var.name] = generate_numeric_values(
@@ -88,7 +98,7 @@ def generate_synthetic_data(
             synthetic_data[var.name] = generate_categorical_values(
                 var.statistics,
                 n_samples,
-                global_max_count,
+                missing_rate,
                 var.name
             )
     
@@ -99,6 +109,11 @@ def generate_synthetic_data(
         output_path = output_dir / "synthetic_data.csv"
         synthetic_data.to_csv(output_path, index=False)
         logger.info(f"Saved synthetic data to {output_path}")
+    
+    # After generating the DataFrame, apply rules if provided
+    if rules_yaml:
+        logger.info(f"Applying rules from {rules_yaml}")
+        synthetic_data = apply_rules(synthetic_data, rules_yaml)
     
     return synthetic_data
 
@@ -147,33 +162,52 @@ def generate_numeric_values(
     return values
 
 def generate_categorical_values(
-    stats: 'Statistics',
-    n_samples: int,
-    global_max_count: int,
+    stats: Statistics,
+    n: int,
+    missing_rate: float,
     var_name: str
-) -> np.ndarray:
-    """Generate synthetic categorical values using observed frequencies, with missingness."""
-    if stats.count == 0:
-        return np.full(n_samples, np.nan, dtype=object)
-    if not stats.most_frequent:
-        if stats.examples:
-            categories = [ex.code for ex in stats.examples]
-            counts = [ex.count for ex in stats.examples]
-        else:
-            logger.warning("No categorical values found, generating random strings")
-            values = np.random.choice(['A', 'B', 'C', 'D'], n_samples)
-            return apply_missingness(values, stats, global_max_count, var_name)
-    else:
+) -> List[Optional[str]]:
+    """Generate synthetic categorical values.
+    
+    Args:
+        stats: Statistics object containing distribution info
+        n: Number of values to generate
+        missing_rate: Rate of missing values
+        var_name: Name of variable being generated
+        
+    Returns:
+        List of generated values
+    """
+    # Calculate number of nulls
+    n_nulls = int(n * missing_rate)
+    n_non_missing = n - n_nulls
+    
+    # Get categories from most frequent values
+    categories = []
+    if stats.most_frequent:
         categories = [vl.code for vl in stats.most_frequent]
-        counts = [vl.count for vl in stats.most_frequent]
-    if sum(counts) == 0:
-        return np.full(n_samples, np.nan, dtype=object)
-    total = stats.total
-    if total is None or total == 0:
-        total = max(counts) if counts else global_max_count
-    probs = [count/total for count in counts]
-    probs = np.array(probs)
-    probs = probs / probs.sum()
-    values = np.random.choice(categories, n_samples, p=probs)
-    values = apply_missingness(values, stats, global_max_count, var_name)
+    elif stats.examples:
+        # Use examples directly as categories since they are strings
+        categories = stats.examples
+    
+    if not categories:
+        logger.warning(f"No categories found for {var_name}, using default categories")
+        categories = ['0', '1']  # Default binary categories
+    
+    # Generate values
+    values = []
+    if n_nulls > 0:
+        values.extend([None] * n_nulls)
+    
+    if n_non_missing > 0:
+        # Use distribution from most frequent values if available
+        if stats.most_frequent:
+            probs = [vl.count / stats.count for vl in stats.most_frequent]
+            # Normalize probabilities
+            probs = [p / sum(probs) for p in probs]
+            values.extend(np.random.choice(categories, size=n_non_missing, p=probs))
+        else:
+            # Use uniform distribution
+            values.extend(np.random.choice(categories, size=n_non_missing))
+    
     return values

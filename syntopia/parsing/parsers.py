@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 import logging
 from pathlib import Path
 from .schema import Schema, Variable, Statistics, ValueLabel
+import yaml
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -29,109 +30,105 @@ def fetch_xml(url: str) -> etree._Element:
     response.raise_for_status()
     return etree.fromstring(response.content)
 
-def parse_variable_report(xml_content: Union[str, etree._Element]) -> Schema:
-    """Parse a TOPMed variable report XML into a Schema object.
-    
-    Args:
-        xml_content: Either a URL string, local file path, or parsed XML element
-        
-    Returns:
-        Schema object containing variable information
+def parse_variable_report(*, xml_path: Optional[str] = None, xml_content: Optional[str] = None) -> Schema:
     """
-    if isinstance(xml_content, str):
-        if urlparse(xml_content).scheme:
-            # It's a URL
-            xml_content = fetch_xml(xml_content)
-            source = xml_content
-        else:
-            # It's a local file path
-            path = Path(xml_content)
-            if not path.exists():
-                raise FileNotFoundError(f"File not found: {xml_content}")
-            xml_content = etree.parse(str(path))
-            source = None
-    else:
+    Parse a TOPMed variable report XML file into a Schema object.
+    Args:
+        xml_path: Path to XML file (optional if xml_content is provided)
+        xml_content: XML content as string (optional if xml_path is provided)
+    Returns:
+        Schema object containing variable definitions
+    Raises:
+        ValueError: If neither xml_path nor xml_content is provided
+    """
+    logger = logging.getLogger(__name__)
+    
+    if xml_content is not None:
+        # Encode XML content as bytes before parsing
+        root = etree.fromstring(xml_content.encode('utf-8'))
         source = None
+    elif xml_path is not None:
+        tree = etree.parse(xml_path)
+        root = tree.getroot()
+        source = xml_path
+    else:
+        raise ValueError("Either xml_path or xml_content must be provided")
     
-    schema = Schema(source=source)
+    # Create schema object
+    schema = Schema(variables=[], source=source)
     
-    # Find all variable elements
-    for var in xml_content.findall(".//variable"):
-        # Get variable information from attributes
-        var_info = {
-            'name': var.get('var_name', ''),
-            'id': var.get('id', ''),
-            'type': var.get('calculated_type', ''),
-            'reported_type': var.get('reported_type', ''),
-            'units': var.get('units', ''),
-        }
+    # Debug: Print root element tag and namespace
+    logger.debug(f"Root element: {root.tag}")
+    logger.debug(f"Root attributes: {root.attrib}")
+    
+    # Parse variables
+    for var_elem in root.findall('.//variable'):
+        # Debug: Print variable element details
+        logger.debug(f"Found variable element: {var_elem.tag}")
+        logger.debug(f"Variable attributes: {var_elem.attrib}")
         
-        # Get description from child element
-        description = var.find('description')
-        if description is not None:
-            var_info['description'] = description.text or ''
+        # Get name from var_name attribute
+        name = var_elem.get('var_name', '')
+        
+        var = Variable(
+            name=name,
+            id=var_elem.get('id', ''),
+            type=var_elem.get('calculated_type', ''),
+            reported_type=var_elem.get('reported_type', ''),
+            units=var_elem.get('units', ''),
+            description=var_elem.findtext('description', ''),
+            comment=var_elem.findtext('comment', '')
+        )
+        
+        # Debug: Print parsed variable details
+        logger.debug(f"Parsed variable: {var.name} (id: {var.id})")
+        
+        # Parse statistics if available
+        stats_elem = var_elem.find('.//total/stats/stat')
+        if stats_elem is not None:
+            # Debug: Print statistics element details
+            logger.debug(f"Found statistics for {var.name}: {stats_elem.attrib}")
+            
+            try:
+                stats = Statistics(
+                    count=int(stats_elem.get('n', 0)),
+                    nulls=int(stats_elem.get('nulls', 0)),
+                    mean=float(stats_elem.get('mean', 0)),
+                    median=float(stats_elem.get('median', 0)),
+                    min=float(stats_elem.get('min', 0)),
+                    max=float(stats_elem.get('max', 0)),
+                    std=float(stats_elem.get('sd', 0)),
+                    most_frequent=[],
+                    examples=[]
+                )
+                
+                # Parse most frequent values (enums)
+                for enum in var_elem.findall('.//total/stats/enum'):
+                    # Debug: Print enum details
+                    logger.debug(f"Found enum value: {enum.attrib}")
+                    stats.most_frequent.append(ValueLabel(
+                        code=enum.get('code', ''),
+                        text=enum.text or '',
+                        count=int(enum.get('count', 0))
+                    ))
+                
+                # Parse examples
+                for ex in var_elem.findall('.//total/stats/example'):
+                    # Debug: Print example details
+                    logger.debug(f"Found example: {ex.text}")
+                    stats.examples.append(ex.text)
+                
+                var.statistics = stats
+            except (ValueError, TypeError) as e:
+                logger.warning(f"Error parsing statistics for {var.name}: {e}")
         else:
-            var_info['description'] = ''
+            logger.debug(f"No statistics found for {var.name}")
         
-        # Get statistics from total/stats/stat element
-        total = var.find('total')
-        if total is not None:
-            stats = total.find('stats')
-            if stats is not None:
-                stat = stats.find('stat')
-                if stat is not None:
-                    # Get total number of records
-                    total_records = int(stat.get('n', 0)) if stat.get('n') else None
-                    
-                    statistics = Statistics(
-                        count=int(stat.get('n', 0)) if stat.get('n') else None,
-                        total=total_records,  # Set total field
-                        nulls=int(stat.get('nulls', 0)) if stat.get('nulls') else None,
-                        mean=float(stat.get('mean', 0)) if stat.get('mean') else None,
-                        median=float(stat.get('median', 0)) if stat.get('median') else None,
-                        min=float(stat.get('min', 0)) if stat.get('min') else None,
-                        max=float(stat.get('max', 0)) if stat.get('max') else None,
-                        std=float(stat.get('sd', 0)) if stat.get('sd') else None,
-                    )
-                    
-                    # Get most frequent values from enum elements
-                    for enum in stats.findall('enum'):
-                        code = enum.get('code', '')
-                        count = int(enum.get('count', 0)) if enum.get('count') else None
-                        text = enum.text
-                        if code and text:
-                            statistics.most_frequent.append(
-                                ValueLabel(code=code, text=text, count=count)
-                            )
-                    
-                    # Get example values if they exist
-                    for example in stats.findall('example'):
-                        count = int(example.get('count', 0)) if example.get('count') else None
-                        value = example.text
-                        if value:
-                            statistics.examples.append(
-                                ValueLabel(code=value, text=value, count=count)
-                            )
-                    
-                    var_info['statistics'] = statistics
-                else:
-                    var_info['statistics'] = None
-            else:
-                var_info['statistics'] = None
-        else:
-            var_info['statistics'] = None
-        
-        # Get variable comment
-        comment = var.find('comment')
-        if comment is not None:
-            var_info['comment'] = comment.text or ''
-        else:
-            var_info['comment'] = ''
-        
-        # Only add variables that have a name
-        if var_info['name']:
-            logger.debug(f"Found variable: {var_info['name']}")
-            schema.variables.append(Variable(**var_info))
+        schema.variables.append(var)
+    
+    logger.info(f"Found {len(schema.variables)} variables in schema")
+    if not schema.variables:
+        logger.warning("No variables found in schema!")
     
     return schema
 
@@ -172,9 +169,7 @@ def get_variable_summary(schema: Schema) -> pd.DataFrame:
                 'most_frequent': '; '.join(
                     f"{vl.text} ({vl.count})" for vl in var.statistics.most_frequent
                 ),
-                'examples': '; '.join(
-                    f"{vl.text} ({vl.count})" for vl in var.statistics.examples
-                ),
+                'examples': '; '.join(var.statistics.examples)  # Examples are strings
             })
         else:
             row.update({

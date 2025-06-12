@@ -2,7 +2,8 @@
 
 import yaml
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Union
+from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
@@ -46,55 +47,52 @@ class Schema:
     variables: List[Variable] = field(default_factory=list)
     source: Optional[str] = None
     
-    def to_yaml(self, filepath: str) -> None:
-        """Serialize the schema to a YAML file.
+    def to_yaml(self, path: Union[str, Path]) -> None:
+        """Save schema to YAML file.
         
         Args:
-            filepath: Path to save the YAML file
+            path: Path to save YAML file
         """
         data = {
-            'variables': [
-                {
-                    'name': var.name,
-                    'id': var.id,
-                    'type': var.type,
-                    'reported_type': var.reported_type,
-                    'units': var.units,
-                    'description': var.description,
-                    'comment': var.comment,
-                    'statistics': {
-                        'count': var.statistics.count if var.statistics else None,
-                        'nulls': var.statistics.nulls if var.statistics else None,
-                        'mean': var.statistics.mean if var.statistics else None,
-                        'median': var.statistics.median if var.statistics else None,
-                        'min': var.statistics.min if var.statistics else None,
-                        'max': var.statistics.max if var.statistics else None,
-                        'std': var.statistics.std if var.statistics else None,
-                        'most_frequent': [
-                            {
-                                'code': vl.code,
-                                'text': vl.text,
-                                'count': vl.count
-                            }
-                            for vl in (var.statistics.most_frequent if var.statistics else [])
-                        ],
-                        'examples': [
-                            {
-                                'code': ex.code,
-                                'text': ex.text,
-                                'count': ex.count
-                            }
-                            for ex in (var.statistics.examples if var.statistics else [])
-                        ]
-                    } if var.statistics else None
-                }
-                for var in self.variables
-            ],
-            'source': self.source
+            'source': self.source,
+            'variables': []
         }
         
-        with open(filepath, 'w') as f:
-            yaml.safe_dump(data, f, default_flow_style=False)
+        for var in self.variables:
+            var_data = {
+                'name': var.name,
+                'id': var.id,
+                'type': var.type,
+                'reported_type': var.reported_type,
+                'units': var.units,
+                'description': var.description,
+                'comment': var.comment,
+                'statistics': None
+            }
+            
+            if var.statistics:
+                var_data['statistics'] = {
+                    'count': var.statistics.count,
+                    'nulls': var.statistics.nulls,
+                    'mean': var.statistics.mean,
+                    'median': var.statistics.median,
+                    'min': var.statistics.min,
+                    'max': var.statistics.max,
+                    'std': var.statistics.std,
+                    'most_frequent': [
+                        {
+                            'code': vl.code,
+                            'text': vl.text,
+                            'count': vl.count
+                        } for vl in var.statistics.most_frequent
+                    ],
+                    'examples': var.statistics.examples  # Examples are already strings
+                }
+            
+            data['variables'].append(var_data)
+        
+        with open(path, 'w') as f:
+            yaml.dump(data, f, default_flow_style=False)
     
     @classmethod
     def from_yaml(cls, filepath: str) -> 'Schema':
@@ -140,10 +138,7 @@ class Schema:
                             ValueLabel(**vl_data)
                             for vl_data in stats_data.get('most_frequent', [])
                         ],
-                        examples=[
-                            ValueLabel(**ex_data)
-                            for ex_data in stats_data.get('examples', [])
-                        ]
+                        examples=stats_data.get('examples', [])  # Examples are strings
                     )
                 
                 # Create variable object

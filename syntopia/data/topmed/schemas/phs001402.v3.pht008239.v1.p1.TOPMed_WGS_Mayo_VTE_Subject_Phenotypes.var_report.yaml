@@ -8,13 +8,13 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent: []
     nulls: 0
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: ''
@@ -25,16 +25,16 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '2'
       count: 338
       text: case
     nulls: 0
-    std: null
+    std: 0.0
   type: enum_integer
   units: ''
 - comment: ''
@@ -45,10 +45,10 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: M
       count: 216
@@ -68,36 +68,16 @@ variables:
   statistics:
     count: 335
     examples:
-    - code: '59'
-      count: 11
-      text: '59'
-    - code: '49'
-      count: 11
-      text: '49'
-    - code: '48'
-      count: 10
-      text: '48'
-    - code: '81'
-      count: 10
-      text: '81'
-    - code: '63'
-      count: 9
-      text: '63'
-    - code: '61'
-      count: 9
-      text: '61'
-    - code: '65'
-      count: 9
-      text: '65'
-    - code: '45'
-      count: 9
-      text: '45'
-    - code: '62'
-      count: 9
-      text: '62'
-    - code: '72'
-      count: 8
-      text: '72'
+    - '59'
+    - '49'
+    - '48'
+    - '81'
+    - '63'
+    - '61'
+    - '65'
+    - '45'
+    - '62'
+    - '72'
     max: 89.0
     mean: 57.21
     median: 57.0
@@ -115,13 +95,16 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
-    most_frequent: []
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
+    most_frequent:
+    - code: ''
+      count: 338
+      text: MN
     nulls: 0
-    std: null
+    std: 0.0
   type: enum_integer
   units: ''
 - comment: ''
@@ -132,13 +115,13 @@ variables:
   statistics:
     count: 0
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent: []
     nulls: 338
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: ''
@@ -149,16 +132,16 @@ variables:
   statistics:
     count: 290
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 290
       text: 'no'
     nulls: 48
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: ''
@@ -169,10 +152,10 @@ variables:
   statistics:
     count: 165
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 136
@@ -192,16 +175,16 @@ variables:
   statistics:
     count: 32
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 32
       text: 'yes'
     nulls: 306
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -212,13 +195,13 @@ variables:
   statistics:
     count: 0
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent: []
     nulls: 338
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -229,13 +212,13 @@ variables:
   statistics:
     count: 0
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent: []
     nulls: 338
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -246,13 +229,13 @@ variables:
   statistics:
     count: 0
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent: []
     nulls: 338
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -263,13 +246,13 @@ variables:
   statistics:
     count: 0
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent: []
     nulls: 338
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -280,16 +263,16 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 338
       text: 'yes'
     nulls: 0
-    std: null
+    std: 0.0
   type: enum_integer
   units: ''
 - comment: ''
@@ -300,10 +283,10 @@ variables:
   statistics:
     count: 227
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 225
@@ -323,16 +306,16 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 338
       text: 'no'
     nulls: 0
-    std: null
+    std: 0.0
   type: enum_integer
   units: ''
 - comment: ''
@@ -343,16 +326,16 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 338
       text: 'no'
     nulls: 0
-    std: null
+    std: 0.0
   type: enum_integer
   units: ''
 - comment: blank=neither (ineligible)
@@ -363,16 +346,16 @@ variables:
   statistics:
     count: 338
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 338
       text: 'yes'
     nulls: 0
-    std: null
+    std: 0.0
   type: enum_integer
   units: ''
 - comment: ''
@@ -383,36 +366,16 @@ variables:
   statistics:
     count: 335
     examples:
-    - code: '59'
-      count: 11
-      text: '59'
-    - code: '49'
-      count: 11
-      text: '49'
-    - code: '48'
-      count: 10
-      text: '48'
-    - code: '81'
-      count: 10
-      text: '81'
-    - code: '63'
-      count: 9
-      text: '63'
-    - code: '61'
-      count: 9
-      text: '61'
-    - code: '65'
-      count: 9
-      text: '65'
-    - code: '45'
-      count: 9
-      text: '45'
-    - code: '62'
-      count: 9
-      text: '62'
-    - code: '72'
-      count: 8
-      text: '72'
+    - '59'
+    - '49'
+    - '48'
+    - '81'
+    - '63'
+    - '61'
+    - '65'
+    - '45'
+    - '62'
+    - '72'
     max: 89.0
     mean: 57.21
     median: 57.0
@@ -430,16 +393,16 @@ variables:
   statistics:
     count: 263
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 263
       text: 'yes'
     nulls: 75
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=unknown or not applicable
@@ -450,16 +413,16 @@ variables:
   statistics:
     count: 308
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 308
       text: 'no'
     nulls: 30
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=unknown or not applicable
@@ -470,16 +433,16 @@ variables:
   statistics:
     count: 282
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 282
       text: 'no'
     nulls: 56
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=unknown or not applicable
@@ -490,16 +453,16 @@ variables:
   statistics:
     count: 281
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 281
       text: 'no'
     nulls: 57
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=unknown or not applicable
@@ -511,16 +474,16 @@ variables:
   statistics:
     count: 307
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 307
       text: 'no'
     nulls: 31
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: ''
@@ -535,7 +498,10 @@ variables:
     mean: 0.0
     median: 0.0
     min: 0.0
-    most_frequent: []
+    most_frequent:
+    - code: ''
+      count: 338
+      text: '0'
     nulls: 0
     std: 0.0
   type: integer
@@ -552,7 +518,10 @@ variables:
     mean: 0.0
     median: 0.0
     min: 0.0
-    most_frequent: []
+    most_frequent:
+    - code: ''
+      count: 338
+      text: '0'
     nulls: 0
     std: 0.0
   type: integer
@@ -569,7 +538,10 @@ variables:
     mean: 0.0
     median: 0.0
     min: 0.0
-    most_frequent: []
+    most_frequent:
+    - code: ''
+      count: 338
+      text: '0'
     nulls: 0
     std: 0.0
   type: integer
@@ -582,36 +554,16 @@ variables:
   statistics:
     count: 337
     examples:
-    - code: '167.60'
-      count: 12
-      text: '167.60'
-    - code: '175'
-      count: 11
-      text: '175'
-    - code: '173'
-      count: 11
-      text: '173'
-    - code: '160'
-      count: 11
-      text: '160'
-    - code: '172.70'
-      count: 10
-      text: '172.70'
-    - code: '170'
-      count: 9
-      text: '170'
-    - code: '167'
-      count: 8
-      text: '167'
-    - code: '188'
-      count: 8
-      text: '188'
-    - code: '177.80'
-      count: 8
-      text: '177.80'
-    - code: '180'
-      count: 7
-      text: '180'
+    - '167.60'
+    - '175'
+    - '173'
+    - '160'
+    - '172.70'
+    - '170'
+    - '167'
+    - '188'
+    - '177.80'
+    - '180'
     max: 196.9
     mean: 172.2
     median: 172.7
@@ -629,36 +581,16 @@ variables:
   statistics:
     count: 338
     examples:
-    - code: '90'
-      count: 3
-      text: '90'
-    - code: '100.50'
-      count: 3
-      text: '100.50'
-    - code: '91'
-      count: 3
-      text: '91'
-    - code: '87'
-      count: 3
-      text: '87'
-    - code: '95.30'
-      count: 3
-      text: '95.30'
-    - code: '68'
-      count: 3
-      text: '68'
-    - code: '88.90'
-      count: 3
-      text: '88.90'
-    - code: '95'
-      count: 3
-      text: '95'
-    - code: '65'
-      count: 3
-      text: '65'
-    - code: '91.80'
-      count: 3
-      text: '91.80'
+    - '90'
+    - '100.50'
+    - '91'
+    - '87'
+    - '95.30'
+    - '68'
+    - '88.90'
+    - '95'
+    - '65'
+    - '91.80'
     max: 210.0
     mean: 90.03
     median: 87.6
@@ -676,36 +608,16 @@ variables:
   statistics:
     count: 337
     examples:
-    - code: '167.60'
-      count: 12
-      text: '167.60'
-    - code: '175'
-      count: 11
-      text: '175'
-    - code: '160'
-      count: 11
-      text: '160'
-    - code: '173'
-      count: 11
-      text: '173'
-    - code: '172.70'
-      count: 10
-      text: '172.70'
-    - code: '170'
-      count: 9
-      text: '170'
-    - code: '188'
-      count: 8
-      text: '188'
-    - code: '177.80'
-      count: 8
-      text: '177.80'
-    - code: '167'
-      count: 8
-      text: '167'
-    - code: '180'
-      count: 7
-      text: '180'
+    - '167.60'
+    - '175'
+    - '160'
+    - '173'
+    - '172.70'
+    - '170'
+    - '188'
+    - '177.80'
+    - '167'
+    - '180'
     max: 196.9
     mean: 172.2
     median: 172.7
@@ -723,36 +635,16 @@ variables:
   statistics:
     count: 338
     examples:
-    - code: '90'
-      count: 3
-      text: '90'
-    - code: '100.50'
-      count: 3
-      text: '100.50'
-    - code: '91'
-      count: 3
-      text: '91'
-    - code: '87'
-      count: 3
-      text: '87'
-    - code: '95.30'
-      count: 3
-      text: '95.30'
-    - code: '68'
-      count: 3
-      text: '68'
-    - code: '88.90'
-      count: 3
-      text: '88.90'
-    - code: '95'
-      count: 3
-      text: '95'
-    - code: '65'
-      count: 3
-      text: '65'
-    - code: '91.80'
-      count: 3
-      text: '91.80'
+    - '90'
+    - '100.50'
+    - '91'
+    - '87'
+    - '95.30'
+    - '68'
+    - '88.90'
+    - '95'
+    - '65'
+    - '91.80'
     max: 210.0
     mean: 90.03
     median: 87.6
@@ -770,10 +662,10 @@ variables:
   statistics:
     count: 274
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 135
@@ -796,10 +688,10 @@ variables:
   statistics:
     count: 220
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '0'
       count: 218
@@ -819,16 +711,16 @@ variables:
   statistics:
     count: 2
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 2
       text: 'yes'
     nulls: 336
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -839,16 +731,16 @@ variables:
   statistics:
     count: 1
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 1
       text: 'yes'
     nulls: 337
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -859,16 +751,16 @@ variables:
   statistics:
     count: 1
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 1
       text: 'yes'
     nulls: 337
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -879,16 +771,16 @@ variables:
   statistics:
     count: 3
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 3
       text: 'yes'
     nulls: 335
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -899,13 +791,13 @@ variables:
   statistics:
     count: 0
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent: []
     nulls: 338
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -916,16 +808,16 @@ variables:
   statistics:
     count: 331
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 331
       text: 'yes'
     nulls: 7
-    std: null
+    std: 0.0
   type: string
   units: ''
 - comment: blank=implied no
@@ -936,36 +828,16 @@ variables:
   statistics:
     count: 64
     examples:
-    - code: '2007'
-      count: 7
-      text: '2007'
-    - code: '2009'
-      count: 7
-      text: '2009'
-    - code: '2003'
-      count: 7
-      text: '2003'
-    - code: '2006'
-      count: 5
-      text: '2006'
-    - code: '2004'
-      count: 5
-      text: '2004'
-    - code: '2000'
-      count: 4
-      text: '2000'
-    - code: '2010'
-      count: 4
-      text: '2010'
-    - code: '2005'
-      count: 4
-      text: '2005'
-    - code: '2008'
-      count: 4
-      text: '2008'
-    - code: '1990'
-      count: 3
-      text: '1990'
+    - '2007'
+    - '2009'
+    - '2003'
+    - '2006'
+    - '2004'
+    - '2000'
+    - '2010'
+    - '2005'
+    - '2008'
+    - '1990'
     max: 2013.0
     mean: 2003.0
     median: 2005.0
@@ -983,10 +855,10 @@ variables:
   statistics:
     count: 64
     examples: []
-    max: null
-    mean: null
-    median: null
-    min: null
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    min: 0.0
     most_frequent:
     - code: '1'
       count: 37

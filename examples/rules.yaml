@@ -1,7 +1,0 @@
-# Example rules for synthetic data cleaning
-- if: sex == "M"
-  then: pregnant = 0
-- if: enrollage < 0
-  then: enrollage = 0
-- if: (sex == "F") and (enrollage < 10)
-  then: pregnant = 0 
