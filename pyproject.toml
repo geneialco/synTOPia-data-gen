@@ -4,17 +4,51 @@ build-backend = "hatchling.build"
 
 [project]
 name = "syntopia"
-version = "0.0.1"
-description = "A CLI toolkit for synthetic data generation based on TOPMed data dictionaries"
+version = "0.1.0"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" },
+]
+description = "A toolkit for generating synthetic datasets based on TOPMed data dictionaries"
 readme = "README.md"
 requires-python = ">=3.8"
-license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
 dependencies = [
-    "click>=8.1",
-    "pandas>=2.2",
-    "numpy>=1.26",
-    "lxml>=5.2",
+    "click>=8.0.0",
+    "pandas>=1.3.0",
+    "lxml>=4.9.0",
+    "requests>=2.28.0",
+    "numpy>=1.21.0",
+    "pymc>=5.0.0",
+    "biopython>=1.79",
+    "scipy>=1.7.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "isort>=5.0.0",
+    "mypy>=0.900",
 ]
 
 [project.scripts]
-syntopia = "syntopia.cli:cli" 
+syntopia = "syntopia.cli:cli"
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true 
