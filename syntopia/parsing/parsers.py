@@ -80,8 +80,12 @@ def parse_variable_report(xml_content: Union[str, etree._Element]) -> Schema:
             if stats is not None:
                 stat = stats.find('stat')
                 if stat is not None:
+                    # Get total number of records
+                    total_records = int(stat.get('n', 0)) if stat.get('n') else None
+                    
                     statistics = Statistics(
                         count=int(stat.get('n', 0)) if stat.get('n') else None,
+                        total=total_records,  # Set total field
                         nulls=int(stat.get('nulls', 0)) if stat.get('nulls') else None,
                         mean=float(stat.get('mean', 0)) if stat.get('mean') else None,
                         median=float(stat.get('median', 0)) if stat.get('median') else None,

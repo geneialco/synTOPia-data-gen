@@ -18,6 +18,7 @@ class ValueLabel:
 class Statistics:
     """Contains statistical information for a variable."""
     count: Optional[int] = None
+    total: Optional[int] = None  # Total number of records
     nulls: Optional[int] = None
     mean: Optional[float] = None
     median: Optional[float] = None
