@@ -101,7 +101,7 @@ def parse_variable_report(*, xml_path: Optional[str] = None, xml_content: Option
                     most_frequent=[],
                     examples=[]
                 )
-                
+                    
                 # Parse most frequent values (enums)
                 for enum in var_elem.findall('.//total/stats/enum'):
                     # Debug: Print enum details

@@ -14,6 +14,7 @@ from .utils.paths import (
     ensure_directories,
     get_rules_path
 )
+from .synth.epigraph_synth import build_correlation_matrix
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -149,6 +150,30 @@ def schema_export(schema_path: str, output: str, debug: bool):
     schema = parse_variable_report(schema_path)
     schema.to_yaml(schema_path)
     click.echo(f"Saved schema to {schema_path}")
+
+@cli.command()
+@click.argument('schema_path', type=click.Path(exists=True))
+@click.option('--output', '-o', help='Output CSV file path')
+@click.option('--debug', is_flag=True, help='Enable debug logging')
+def generate_epigraph(schema_path: str, output: str, debug: bool):
+    """Generate a correlation matrix from a schema YAML using EpiGraphDB and GPT fallback."""
+    if debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+
+    # Load schema
+    schema = Schema.from_yaml(schema_path)
+
+    # Build correlation matrix
+    matrix = build_correlation_matrix(schema)
+
+    # Convert to DataFrame and save
+    import pandas as pd
+    df = pd.DataFrame(matrix)
+    if output:
+        df.to_csv(output)
+        click.echo(f"Saved correlation matrix to {output}")
+    else:
+        click.echo(df.to_string())
 
 if __name__ == '__main__':
     cli() 

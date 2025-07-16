@@ -1,0 +1,59 @@
+source: test_small
+variables:
+  - name: age
+    id: test_age
+    type: integer
+    reported_type: integer
+    units: years
+    description: Age at assessment
+    comment: ''
+    statistics:
+      count: 1000
+      nulls: 0
+      mean: 50.0
+      median: 50.0
+      min: 18.0
+      max: 90.0
+      std: 15.0
+      most_frequent: []
+      examples: ['25', '40', '60']
+  - name: sex
+    id: test_sex
+    type: string
+    reported_type: string
+    units: ''
+    description: Biological sex
+    comment: ''
+    statistics:
+      count: 1000
+      nulls: 0
+      mean: 0.0
+      median: 0.0
+      min: 0.0
+      max: 0.0
+      std: 0.0
+      most_frequent:
+        - code: M
+          text: male
+          count: 500
+        - code: F
+          text: female
+          count: 500
+      examples: ['M', 'F']
+  - name: body_mass_index
+    id: test_bmi
+    type: float
+    reported_type: float
+    units: kg/m2
+    description: Body mass index
+    comment: ''
+    statistics:
+      count: 1000
+      nulls: 0
+      mean: 27.0
+      median: 26.5
+      min: 15.0
+      max: 50.0
+      std: 5.0
+      most_frequent: []
+      examples: ['22.5', '30.1', '27.8'] 
