@@ -1,0 +1,25 @@
+variables:
+  - name: bmi
+    id: bmi
+    type: continuous
+    reported_type: continuous
+    units: "kg/m^2"
+    description: Body mass index
+  - name: height
+    id: height
+    type: continuous
+    reported_type: continuous
+    units: "cm"
+    description: Height
+  - name: sbp
+    id: sbp
+    type: continuous
+    reported_type: continuous
+    units: "mmHg"
+    description: Systolic blood pressure
+  - name: dbp
+    id: dbp
+    type: continuous
+    reported_type: continuous
+    units: "mmHg"
+    description: Diastolic blood pressure 
