@@ -26,6 +26,9 @@ dependencies = [
     "biopython>=1.79",
     "scipy>=1.7.0",
     "pyyaml>=6.0",
+    "mcp>=1.0.0",
+    "httpx>=0.25.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.optional-dependencies]
@@ -38,6 +41,7 @@ dev = [
 
 [project.scripts]
 syntopia = "syntopia.cli:cli"
+syntopia-mcp = "syntopia.mcp_server:main"
 
 [tool.black]
 line-length = 88

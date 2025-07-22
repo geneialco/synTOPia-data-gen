@@ -74,6 +74,44 @@ syntopia/
 └── cli.py             # Command-line interface
 ```
 
+## MCP Server Integration
+
+SynTOPia includes a Model Context Protocol (MCP) server that enables integration with Claude Desktop for natural language interaction with synthetic data generation capabilities.
+
+### Quick Start with Claude Desktop
+
+1. **Install dependencies**:
+   ```bash
+   pip install -e .
+   ```
+
+2. **Test the MCP server**:
+   ```bash
+   python test_mcp_server.py
+   ```
+
+3. **Configure Claude Desktop**:
+   Add this to your Claude Desktop configuration file:
+   ```json
+   {
+     "mcpServers": {
+       "syntopia": {
+         "command": "python",
+         "args": ["-m", "syntopia.mcp_server"],
+         "cwd": "/path/to/your/syntopia-data-gen"
+       }
+     }
+   }
+   ```
+
+4. **Restart Claude Desktop** and start using natural language commands like:
+   - "Parse this dbGaP variable report: [URL]"
+   - "Generate 500 synthetic samples from the schema file"
+   - "Show me available schemas"
+   - "Preview the synthetic data file"
+
+For detailed MCP server documentation, see [MCP_SERVER_README.md](MCP_SERVER_README.md).
+
 ## Development
 
 To run tests:

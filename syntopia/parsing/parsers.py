@@ -132,58 +132,36 @@ def parse_variable_report(*, xml_path: Optional[str] = None, xml_content: Option
     
     return schema
 
-def get_variable_summary(schema: Schema) -> pd.DataFrame:
-    """Generate a summary of variables in the Schema.
+def get_variable_summary(schema: Schema) -> 'pd.DataFrame':
+    """
+    Generate a summary DataFrame of variables in the schema.
     
     Args:
-        schema: Schema object from parse_variable_report
+        schema: Schema object to summarize
         
     Returns:
-        Summary DataFrame with variable statistics
+        DataFrame with variable summary information
     """
-    if not schema.variables:
-        logger.warning("Empty Schema received for summary")
-        return pd.DataFrame(columns=[
-            'name', 'type', 'units', 'count', 'nulls', 'min', 'median', 'max',
-            'mean', 'std', 'most_frequent', 'examples', 'comment'
-        ])
+    import pandas as pd
     
-    rows = []
+    if not schema.variables:
+        return pd.DataFrame()
+    
+    summary_data = []
     for var in schema.variables:
         row = {
             'name': var.name,
             'type': var.type,
-            'units': var.units or '',
-            'comment': var.comment or '',
+            'description': var.description or '',
+            'count': var.statistics.count if var.statistics else None,
+            'nulls': var.statistics.nulls if var.statistics else None,
+            'mean': var.statistics.mean if var.statistics else None,
+            'min': var.statistics.min if var.statistics else None,
+            'max': var.statistics.max if var.statistics else None,
+            'std': var.statistics.std if var.statistics else None,
         }
-        
-        if var.statistics:
-            row.update({
-                'count': var.statistics.count,
-                'nulls': var.statistics.nulls,
-                'min': var.statistics.min,
-                'median': var.statistics.median,
-                'max': var.statistics.max,
-                'mean': var.statistics.mean,
-                'std': var.statistics.std,
-                'most_frequent': '; '.join(
-                    f"{vl.text} ({vl.count})" for vl in var.statistics.most_frequent
-                ),
-                'examples': '; '.join(var.statistics.examples)  # Examples are strings
-            })
-        else:
-            row.update({
-                'count': None,
-                'nulls': None,
-                'min': None,
-                'median': None,
-                'max': None,
-                'mean': None,
-                'std': None,
-                'most_frequent': '',
-                'examples': '',
-            })
-        
-        rows.append(row)
+        summary_data.append(row)
     
-    return pd.DataFrame(rows) 
+    return pd.DataFrame(summary_data)
+
+ 

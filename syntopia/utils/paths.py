@@ -43,16 +43,26 @@ def get_output_paths(
     Returns:
         Tuple of (schema_path, synthetic_path)
     """
+    # Check if we have a project directory override (for MCP server)
+    if "SYNTOPIA_PROJECT_DIR" in os.environ:
+        project_dir = Path(os.environ["SYNTOPIA_PROJECT_DIR"])
+        schemas_dir = project_dir / "syntopia" / "data" / "topmed" / "schemas"
+        synthetic_dir_default = project_dir / "syntopia" / "data" / "topmed" / "synthetic"
+    else:
+        # Use the original relative paths
+        schemas_dir = SCHEMAS_DIR
+        synthetic_dir_default = SYNTHETIC_DIR
+    
     if output_dir:
         synthetic_dir = Path(output_dir)
     else:
-        synthetic_dir = SYNTHETIC_DIR
+        synthetic_dir = synthetic_dir_default
     
     # Create output directory if it doesn't exist
     synthetic_dir.mkdir(parents=True, exist_ok=True)
     
     # Generate output filenames
-    schema_path = SCHEMAS_DIR / f"{dataset_id}.yaml"
+    schema_path = schemas_dir / f"{dataset_id}.yaml"
     
     if rules_name:
         synthetic_path = synthetic_dir / f"{dataset_id}_{rules_name}.csv"
@@ -60,6 +70,24 @@ def get_output_paths(
         synthetic_path = synthetic_dir / f"{dataset_id}.csv"
     
     return schema_path, synthetic_path
+
+def get_rules_path(rules_name: str) -> Path:
+    """
+    Get the path to a rules file by name.
+    Args:
+        rules_name: Name of the rules file (without extension)
+    Returns:
+        Path to the rules file
+    """
+    # Check if we have a project directory override (for MCP server)
+    if "SYNTOPIA_PROJECT_DIR" in os.environ:
+        project_dir = Path(os.environ["SYNTOPIA_PROJECT_DIR"])
+        rules_dir = project_dir / "syntopia" / "data" / "topmed" / "rules"
+    else:
+        # Use the original relative path
+        rules_dir = RULES_DIR
+    
+    return rules_dir / f"{rules_name}.yaml"
 
 def ensure_directories():
     """Create all necessary directories if they don't exist."""

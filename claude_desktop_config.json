@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "syntopia": {
+      "command": "/opt/anaconda3/bin/python",
+      "args": [
+        "-m", "syntopia.mcp_server"
+      ],
+      "cwd": "/replace_with_your_path_to/synTOPia-data-gen",
+      "env": {
+        "LOG_LEVEL": "INFO",
+        "SYNTOPIA_PROJECT_DIR": "/replace_with_your_path_to/synTOPia-data-gen"
+      }
+    }
+  }
+} 
